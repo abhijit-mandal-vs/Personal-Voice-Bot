@@ -11,6 +11,9 @@ Created by Abhijit Mandal | [LinkedIn](https://www.linkedin.com/in/abhiiiman) | 
 ## 🌙 Voice Bot UI - Dark Theme 🌑
 ![Screenshot 3](.github/assets/SS-3.png)
 ## 📚 Swagger UI - API Docs 🔍
+🔗 [API Documentation](https://personal-voice-bot.onrender.com/docs) 📒  
+🔗 [Health Check](https://personal-voice-bot.onrender.com/api/health) 🏥
+
 ![Screenshot 3](.github/assets/SS-4.png)
 
 
