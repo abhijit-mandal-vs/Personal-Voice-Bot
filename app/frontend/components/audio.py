@@ -111,24 +111,55 @@ def whisper_stt(
 
 def audio_recorder():
     """
-    Record audio from the user's microphone.
+    Record audio from the user's microphone with reset capability.
 
     Returns:
         tuple: (audio_bytes, transcript) - The recorded audio data and transcribed text
     """
-    # Use the whisper_stt function to record and transcribe audio
+    # Create a counter to force reset between recordings
+    if "recorder_counter" not in st.session_state:
+        st.session_state.recorder_counter = 0
+
+    # Generate a unique key using the counter
+    recorder_key = f"recorder_{st.session_state.recorder_counter}"
+
+    # Add a small reset button
+    col1, col2 = st.columns([1, 10])
+    with col1:
+        if st.button("🔄", key=f"reset_{st.session_state.recorder_counter}"):
+            # Increment counter to force component re-initialization
+            st.session_state.recorder_counter += 1
+            # Clear any existing recorder data
+            for key in list(st.session_state.keys()):
+                if (
+                    key.startswith("recorder_")
+                    or key == "_last_speech_to_text_transcript_id"
+                    or key == "_last_speech_to_text_transcript"
+                ):
+                    del st.session_state[key]
+            st.rerun()
+
+    # Use the whisper_stt function with our dynamic key
     text = whisper_stt(
         start_prompt="Click to record your question 🎤",
         stop_prompt="Stop recording 🔴",
         just_once=True,
         language="en",
-        key="recorder",
+        key=recorder_key,
     )
 
-    # If text is available, we captured audio
-    if text and "recorder" in st.session_state:
-        # The audio data is directly in the recorder object, not in a 'bytes' key
-        return st.session_state.recorder, text
+    # Check both the specific key and the generic "recorder" key
+    recorder_data = None
+    if recorder_key in st.session_state:
+        recorder_data = st.session_state[recorder_key]
+    elif "recorder" in st.session_state:
+        recorder_data = st.session_state.recorder
+
+    # If we have text and recording data
+    if text and recorder_data:
+        # Increment the counter for next time to ensure a fresh component
+        st.session_state.recorder_counter += 1
+        return recorder_data, text
 
     return None, None
 

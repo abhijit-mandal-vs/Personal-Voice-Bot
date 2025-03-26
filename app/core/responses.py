@@ -10,7 +10,7 @@ PERSONAL_INFO = {
     Hi, I'm Abhijit. I was born in West Bengal but raised in New Delhi, so I call myself a “fake Bengali” with a love for both mishti doi and street momos. Technology and creativity have always fascinated me—I started with sketching, moved to photography, and somehow ended up writing Python code for AI models. I enjoy building intelligent systems, exploring new tech, and occasionally daydreaming about solving the world’s problems (or just my next gaming session).
     """,
     "superpower": """
-    I’d say it’s my ability to break down complex problems into simple, structured solutions. Whether it’s debugging a stubborn AI model or explaining technical concepts in plain English, I enjoy making things understandable and efficient. Also, I have an uncanny ability to Google the right thing at the right time—arguably the most underrated skill in tech.
+    Having 2+ years of experience in AI/ML with a forte in Multimodal ChatBot Development, I’d say it’s my ability to break down complex problems into simple, structured solutions. Whether it’s debugging a stubborn AI model or explaining technical concepts in plain English, I enjoy making things understandable and efficient. Also, I have an uncanny ability to Google the right thing at the right time—arguably the most underrated skill in tech.
     """,
     "growth_areas": """
     1. AI & Multimodal Learning – I want to dive deeper into AI models that integrate vision, text, and speech to create more intelligent applications.

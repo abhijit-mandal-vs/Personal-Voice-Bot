@@ -30,6 +30,7 @@ st.set_page_config(
     page_title="Personal Voice Bot",
     page_icon="🤖",
     layout="wide",
+    initial_sidebar_state="auto",
 )
 
 # CSS for styling
