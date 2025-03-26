@@ -74,13 +74,27 @@ def main():
 
         # API settings
         st.header("API Settings 🔧")
-        api_host = st.text_input("API Host 🌐", value="localhost")
-        api_port = st.number_input(
-            "API Port 🔢", value=8000, min_value=1, max_value=65535
+
+        # Add deployment mode selection
+        deployment_mode = st.radio(
+            "Deployment Mode",
+            options=["Local", "Cloud"],
+            index=0,  # Default to Local
+            help="Select 'Cloud' to use the deployed API on Render, or 'Local' for development",
         )
 
-        # Setting API URL
-        api_url = f"http://{api_host}:{api_port}/api"
+        if deployment_mode == "Cloud":
+            # Cloud mode - use the Render deployed API
+            st.success("Using cloud API endpoint on Render")
+            api_url = "https://personal-voice-bot.onrender.com/api"
+            st.write(f"API URL: {api_url}")
+        else:
+            # Local mode - allow custom configuration
+            api_host = st.text_input("API Host 🌐", value="localhost")
+            api_port = st.number_input(
+                "API Port 🔢", value=8000, min_value=1, max_value=65535
+            )
+            api_url = f"http://{api_host}:{api_port}/api"
 
         # Add a way to clear conversation
         if st.button("Clear Conversation 🧹"):

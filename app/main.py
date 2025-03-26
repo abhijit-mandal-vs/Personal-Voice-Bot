@@ -19,7 +19,10 @@ app = FastAPI(
 # Adding CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://abhijit-voice-bot.streamlit.app/"],
+    allow_origins=[
+        "https://abhijit-voice-bot.streamlit.app",
+        "https://abhijit-voice-bot.streamlit.app/",
+    ],  # Note: Remove trailing slash version if needed
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
