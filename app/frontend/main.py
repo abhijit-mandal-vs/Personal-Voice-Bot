@@ -29,8 +29,7 @@ from app.frontend.components.chat import (
 st.set_page_config(
     page_title="Personal Voice Bot",
     page_icon="🤖",
-    layout="centered",
-    initial_sidebar_state="collapsed",
+    layout="wide",
 )
 
 # CSS for styling
