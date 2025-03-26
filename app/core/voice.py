@@ -23,17 +23,17 @@ def speech_to_text(audio_data):
     """
     recognizer = sr.Recognizer()
 
-    # Create a temporary file to store the audio
+    # Creating a temporary file to store the audio
     with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_audio:
         temp_audio.write(audio_data)
         temp_audio_path = temp_audio.name
 
     try:
-        # Convert to AudioData for the recognizer
+        # Converting the audio to AudioData for the recognizer
         with sr.AudioFile(temp_audio_path) as source:
             audio = recognizer.record(source)
 
-        # Use Google's speech recognition API
+        # Using Google's speech recognition API
         text = recognizer.recognize_google(audio, language=settings.STT_LANGUAGE)
         return text
     except sr.UnknownValueError:
@@ -56,7 +56,7 @@ def text_to_speech(text):
     Returns:
         bytes: Audio data as bytes
     """
-    # Create a gTTS object with the text and desired language
+    # Creating a gTTS object with the text and desired language
     tts = gTTS(text=text, lang=settings.TTS_LANGUAGE, slow=False)
 
     # Save to a BytesIO object
@@ -64,10 +64,10 @@ def text_to_speech(text):
     tts.write_to_fp(mp3_fp)
     mp3_fp.seek(0)
 
-    # Convert to WAV format for better compatibility
+    # Converting to WAV format for better compatibility
     audio = AudioSegment.from_mp3(mp3_fp)
 
-    # Adjust speed if needed
+    # Adjusting the speed if needed
     if settings.TTS_SPEED != 1.0:
         audio = audio._spawn(
             audio.raw_data,
@@ -91,7 +91,7 @@ def preprocess_audio(audio_data):
     Returns:
         bytes: Processed audio data
     """
-    # Convert bytes to audio segment
+    # Converting bytes to audio segment
     with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as temp_file:
         temp_file.write(audio_data)
         temp_path = temp_file.name
@@ -99,10 +99,10 @@ def preprocess_audio(audio_data):
     try:
         audio = AudioSegment.from_file(temp_path, format="wav")
 
-        # Normalize volume
+        # Normalizing the volume
         audio = audio.normalize()
 
-        # Remove silence
+        # Removing the silence
         audio = detect_leading_silence(audio)
 
         # Export to bytes
@@ -128,7 +128,7 @@ def detect_leading_silence(audio, silence_threshold=-50.0, chunk_size=10):
     """
     trim_ms = 0
 
-    # Detect leading silence
+    # Detecting leading silence
     while (
         trim_ms < len(audio)
         and audio[trim_ms : trim_ms + chunk_size].dBFS < silence_threshold
@@ -143,5 +143,5 @@ def detect_leading_silence(audio, silence_threshold=-50.0, chunk_size=10):
     ):
         end_trim_ms -= chunk_size
 
-    # Return trimmed audio
+    # Returning the trimmed audio
     return audio[trim_ms:end_trim_ms]

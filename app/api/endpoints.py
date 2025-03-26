@@ -11,10 +11,10 @@ from app.services.chat_service import ChatService
 from app.services.voice_service import VoiceService
 from app.core.config import settings
 
-# Create API router
+# Creating the API router
 router = APIRouter()
 
-# Create service instances
+# Creating service instances
 chat_service = ChatService()
 voice_service = VoiceService()
 
@@ -33,15 +33,15 @@ async def chat(request: ChatRequest):
         ChatResponse: The assistant's response
     """
     try:
-        # Generate conversation ID if not provided
+        # Generating conversation ID if not provided
         conversation_id = request.conversation_id or str(uuid.uuid4())
 
-        # Process the request
+        # Processing the request
         response_text = await chat_service.generate_response(
             request.message, conversation_id
         )
 
-        # Return the response
+        # Returning the response
         return ChatResponse(response=response_text, conversation_id=conversation_id)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -64,22 +64,22 @@ async def voice(
         StreamingResponse: The audio response as a streaming response
     """
     try:
-        # Read the audio file
+        # Reading the audio file
         audio_content = await audio.read()
 
-        # Generate conversation ID if not provided
+        # Generating conversation ID if not provided
         conversation_id = conversation_id or str(uuid.uuid4())
 
-        # Process the audio to text
+        # Processing the audio to text
         text = await voice_service.speech_to_text(audio_content)
 
-        # Generate a response
+        # Generating a response
         response_text = await chat_service.generate_response(text, conversation_id)
 
-        # Convert the response to speech
+        # Converting the response to speech
         audio_response = await voice_service.text_to_speech(response_text)
 
-        # Return the response
+        # Returning the response
         return StreamingResponse(
             io.BytesIO(audio_response),
             media_type="audio/wav",
@@ -106,15 +106,15 @@ async def chat_groq(request: ChatRequest):
         ChatResponse: The assistant's response
     """
     try:
-        # Generate conversation ID if not provided
+        # Generating conversation ID if not provided
         conversation_id = request.conversation_id or str(uuid.uuid4())
 
-        # Process the request with Groq
+        # Processing the request with Groq
         response_text = await chat_service.generate_response_groq(
             request.message, conversation_id
         )
 
-        # Return the response
+        # Returning the response
         return ChatResponse(response=response_text, conversation_id=conversation_id)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))

@@ -28,7 +28,7 @@ def display_chat():
     # Title
     st.title("🤖 Personal Voice Bot")
 
-    # Display chat messages
+    # Displaying chat messages
     for i, message in enumerate(st.session_state.messages):
         with st.chat_message(message["role"]):
             st.write(message["content"])
@@ -46,7 +46,7 @@ def add_message(role, content):
         role (str): The role of the message sender (user or assistant)
         content (str): The content of the message
     """
-    # Add message to session state
+    # Adding message to session state
     st.session_state.messages.append({"role": role, "content": content})
 
 
@@ -65,7 +65,7 @@ def send_text_to_api(
         tuple: Response text and conversation ID
     """
     try:
-        # Determine which endpoint to use based on current model
+        # Determining which endpoint to use based on current model
         if (
             "llama" in settings.CURRENT_MODEL
             or "groq" in settings.CURRENT_MODEL.lower()
@@ -74,21 +74,21 @@ def send_text_to_api(
             if api_url.endswith("/chat"):
                 api_url = api_url.replace("/chat", "/chat-groq")
 
-        # Create the request payload
+        # Creating the request payload
         payload = {"message": text}
 
         if conversation_id:
             payload["conversation_id"] = conversation_id
 
-        # Send the request
+        # Sending the request
         response = requests.post(
             api_url, json=payload, headers={"Content-Type": "application/json"}
         )
 
-        # Check for errors
+        # Checking for errors
         response.raise_for_status()
 
-        # Parse the response
+        # Parsing the response
         result = response.json()
 
         # Return the response text and conversation ID
@@ -118,7 +118,7 @@ def example_questions():
     Returns:
         str: The selected question or None if no question was selected
     """
-    # Create columns for better layout
+    # Creating columns for better layout
     col1, col2 = st.columns(2)
     col3 = st.container()
 

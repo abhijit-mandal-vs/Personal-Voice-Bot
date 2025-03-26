@@ -116,11 +116,11 @@ def audio_recorder():
     Returns:
         tuple: (audio_bytes, transcript) - The recorded audio data and transcribed text
     """
-    # Create a counter to force reset between recordings
+    # Creating a counter to force reset between recordings
     if "recorder_counter" not in st.session_state:
         st.session_state.recorder_counter = 0
 
-    # Generate a unique key using the counter
+    # Generating a unique key using the counter
     recorder_key = f"recorder_{st.session_state.recorder_counter}"
 
     # Add a small reset button
@@ -139,7 +139,7 @@ def audio_recorder():
                     del st.session_state[key]
             st.rerun()
 
-    # Use the whisper_stt function with our dynamic key
+    # Using the whisper_stt function with our dynamic key
     text = whisper_stt(
         start_prompt="Click to record your question 🎤",
         stop_prompt="Stop recording 🔴",
@@ -148,7 +148,7 @@ def audio_recorder():
         key=recorder_key,
     )
 
-    # Check both the specific key and the generic "recorder" key
+    # Checking both the specific key and the generic "recorder" key
     recorder_data = None
     if recorder_key in st.session_state:
         recorder_data = st.session_state[recorder_key]
@@ -157,7 +157,7 @@ def audio_recorder():
 
     # If we have text and recording data
     if text and recorder_data:
-        # Increment the counter for next time to ensure a fresh component
+        # Incrementing the counter for next time to ensure a fresh component
         st.session_state.recorder_counter += 1
         return recorder_data, text
 
@@ -183,10 +183,10 @@ def play_audio(audio_bytes):
         </audio>
         """
 
-        # Display audio player
+        # Displaying the audio player
         st.markdown(audio_html, unsafe_allow_html=True)
 
-        # Also provide a download button
+        # creating a download button
         st.download_button(
             label="Download Audio",
             data=audio_bytes,

@@ -35,7 +35,6 @@ class AudioRequest(BaseModel):
     conversation_id: Optional[str] = Field(
         None, description="Optional conversation ID for continuing conversations"
     )
-    # Note: The actual audio data will be sent as form data, not in the JSON payload
 
 
 class AudioResponse(BaseModel):
@@ -43,7 +42,6 @@ class AudioResponse(BaseModel):
 
     text: str = Field(..., description="The text version of the response")
     conversation_id: str = Field(..., description="Conversation ID for future messages")
-    # Note: The actual audio data will be sent in the response body, not in the JSON payload
 
 
 class ErrorResponse(BaseModel):
