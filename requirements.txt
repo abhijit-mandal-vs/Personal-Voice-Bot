@@ -17,3 +17,4 @@ gTTS==2.3.2
 langchain==0.0.335
 watchdog==6.0.0
 streamlit-mic-recorder
+groq

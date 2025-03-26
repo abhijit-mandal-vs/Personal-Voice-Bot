@@ -26,7 +26,14 @@ class Settings(BaseSettings):
 
     # OpenAI settings
     OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
-    OPENAI_MODEL: str = os.getenv("OPENAI_MODEL", "gpt-3.5-turbo")
+    OPENAI_MODEL: str = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
+
+    # Groq settings
+    GROQ_API_KEY: str = os.getenv("GROQ_API_KEY", "")
+    GROQ_MODEL: str = os.getenv("GROQ_MODEL", "llama3-70b-8192")
+
+    # Model Settings
+    CURRENT_MODEL: str = GROQ_MODEL
 
     # Voice settings
     TTS_LANGUAGE: str = os.getenv("TTS_LANGUAGE", "en")

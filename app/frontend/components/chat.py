@@ -6,6 +6,7 @@ import json
 from app.frontend.components.audio import text_to_speech_button
 from gtts import gTTS
 import io
+from app.core.config import settings
 
 
 def initialize_chat():
@@ -53,7 +54,7 @@ def send_text_to_api(
     text, conversation_id=None, api_url="http://localhost:8000/api/chat"
 ):
     """
-    Send text to the backend API.
+    Send text to the backend API, using the appropriate endpoint based on current model.
 
     Args:
         text (str): The text to send
@@ -64,6 +65,15 @@ def send_text_to_api(
         tuple: Response text and conversation ID
     """
     try:
+        # Determine which endpoint to use based on current model
+        if (
+            "llama" in settings.CURRENT_MODEL
+            or "groq" in settings.CURRENT_MODEL.lower()
+        ):
+            # Override with Groq endpoint
+            if api_url.endswith("/chat"):
+                api_url = api_url.replace("/chat", "/chat-groq")
+
         # Create the request payload
         payload = {"message": text}
 

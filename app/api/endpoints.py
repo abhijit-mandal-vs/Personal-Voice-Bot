@@ -92,6 +92,34 @@ async def voice(
         raise HTTPException(status_code=400, detail=str(e))
 
 
+@router.post(
+    "/chat-groq", response_model=ChatResponse, responses={400: {"model": ErrorResponse}}
+)
+async def chat_groq(request: ChatRequest):
+    """
+    Process a text chat request and return a text response using Groq model.
+
+    Args:
+        request (ChatRequest): The chat request containing the user's message
+
+    Returns:
+        ChatResponse: The assistant's response
+    """
+    try:
+        # Generate conversation ID if not provided
+        conversation_id = request.conversation_id or str(uuid.uuid4())
+
+        # Process the request with Groq
+        response_text = await chat_service.generate_response_groq(
+            request.message, conversation_id
+        )
+
+        # Return the response
+        return ChatResponse(response=response_text, conversation_id=conversation_id)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
 @router.get("/health")
 async def health_check():
     """

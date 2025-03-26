@@ -5,8 +5,11 @@ import sys
 import streamlit as st
 from dotenv import load_dotenv
 
-# Add the project root to the Python path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
+# Add the project root directory to the Python path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
+
+# Now you can import from app
+from app.core.config import settings
 
 # Load environment variables
 load_dotenv()
@@ -72,7 +75,9 @@ def main():
         # API settings
         st.header("API Settings 🔧")
         api_host = st.text_input("API Host 🌐", value="localhost")
-        api_port = st.number_input("API Port 🔢", value=8000, min_value=1, max_value=65535)
+        api_port = st.number_input(
+            "API Port 🔢", value=8000, min_value=1, max_value=65535
+        )
 
         # Set API URL
         api_url = f"http://{api_host}:{api_port}/api"
@@ -92,9 +97,21 @@ def main():
         add_message("user", question)
 
         # Send question to API
-        response, conversation_id = send_text_to_api(
-            question, st.session_state.conversation_id, f"{api_url}/chat"
-        )
+        if (
+            "llama" in settings.CURRENT_MODEL
+            or "groq" in settings.CURRENT_MODEL.lower()
+        ):
+            print("Using Groq endpoint")
+            # Use Groq endpoint
+            response, conversation_id = send_text_to_api(
+                question, st.session_state.conversation_id, f"{api_url}/chat-groq"
+            )
+        else:
+            print("Using OpenAI endpoint")
+            # Use default OpenAI endpoint
+            response, conversation_id = send_text_to_api(
+                question, st.session_state.conversation_id, f"{api_url}/chat"
+            )
 
         if response and conversation_id:
             # Update conversation ID
@@ -114,9 +131,19 @@ def main():
         add_message("user", user_input)
 
         # Send message to API
-        response, conversation_id = send_text_to_api(
-            user_input, st.session_state.conversation_id, f"{api_url}/chat"
-        )
+        if (
+            "llama" in settings.CURRENT_MODEL
+            or "groq" in settings.CURRENT_MODEL.lower()
+        ):
+            # Use Groq endpoint
+            response, conversation_id = send_text_to_api(
+                user_input, st.session_state.conversation_id, f"{api_url}/chat-groq"
+            )
+        else:
+            # Use default OpenAI endpoint
+            response, conversation_id = send_text_to_api(
+                user_input, st.session_state.conversation_id, f"{api_url}/chat"
+            )
 
         if response and conversation_id:
             # Update conversation ID
@@ -143,9 +170,21 @@ def main():
 
                 # You can either use the transcript directly or send the audio to your API
                 # Option 1: Use transcript directly
-                response, conversation_id = send_text_to_api(
-                    transcript, st.session_state.conversation_id, f"{api_url}/chat"
-                )
+                if (
+                    "llama" in settings.CURRENT_MODEL
+                    or "groq" in settings.CURRENT_MODEL.lower()
+                ):
+                    # Use Groq endpoint
+                    response, conversation_id = send_text_to_api(
+                        transcript,
+                        st.session_state.conversation_id,
+                        f"{api_url}/chat-groq",
+                    )
+                else:
+                    # Use default OpenAI endpoint
+                    response, conversation_id = send_text_to_api(
+                        transcript, st.session_state.conversation_id, f"{api_url}/chat"
+                    )
 
                 # Option 2: Process the audio (comment out Option 1 if using this)
                 # Process the audio
