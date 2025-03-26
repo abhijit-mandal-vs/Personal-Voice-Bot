@@ -16,6 +16,14 @@ Created by Abhijit Mandal | [LinkedIn](https://www.linkedin.com/in/abhiiiman) | 
 
 ![Screenshot 3](.github/assets/SS-4.png)
 
+## Deployment Status 📈
+- Render Logs
+
+![Screenshot 3](.github/assets/SS-5.png)
+
+- Streamlit Cloud Status ⚡️
+
+![Screenshot 3](.github/assets/SS-6.png)
 
 ## Features ⚡️
 
