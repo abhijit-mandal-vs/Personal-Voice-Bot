@@ -33,7 +33,7 @@ class Settings(BaseSettings):
     GROQ_MODEL: str = os.getenv("GROQ_MODEL", "llama3-70b-8192")
 
     # Model Settings
-    CURRENT_MODEL: str = OPENAI_MODEL
+    CURRENT_MODEL: str = GROQ_MODEL
 
     # Voice settings
     TTS_LANGUAGE: str = os.getenv("TTS_LANGUAGE", "en")
